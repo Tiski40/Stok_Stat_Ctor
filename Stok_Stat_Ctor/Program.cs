@@ -34,6 +34,7 @@ namespace Stok_Stat_Ctor
                         workingWithList.PersonRemove();
                         break;
                     case 3:
+
                         Console.WriteLine("Пока");
                         isWork = false;
                         break;

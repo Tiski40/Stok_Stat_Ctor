@@ -15,13 +15,13 @@ namespace LibraryStokStat
     public class WorkingWithList : IDateEntryValidation   //Работа со списком
     {       
         private static List<Person>? listPerson = new();
-        private static readonly string filaName = "PersonJson.json";
+        private static readonly string fileName = "PersonJson.json";
         static WorkingWithList()   // Стат.констр. Отрабатывает при старте программы.
                                    // Загружает из Json файла данные в List для работы с ними.
         {
-            if (File.Exists(filaName) != true)
-            File.WriteAllText(filaName, null);
-            string personJson = File.ReadAllText(filaName);
+            if (File.Exists(fileName) != true)
+            File.WriteAllText(fileName, null);
+            string personJson = File.ReadAllText(fileName);
             List<Person>? listJsonOut = JsonConvert.DeserializeObject<List<Person>>(personJson);
             if (listJsonOut != null)
             listPerson.AddRange(listJsonOut);
