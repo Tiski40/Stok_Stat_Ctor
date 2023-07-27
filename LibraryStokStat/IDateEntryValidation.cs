@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -10,7 +11,7 @@ namespace LibraryStokStat
     public interface IDateEntryValidation
     {
         public string ValidatOfEnteredDataString() //Проверка введенных строковых данных Проверка на строку и символы
-        {
+        {          
             string? validStr = null;
             bool isWorkName = true;
             while (isWorkName)
@@ -27,6 +28,15 @@ namespace LibraryStokStat
                 }
             }
             return validStr ?? "Нет данных";
-        }  
+        }
+        public void SaveInJson<T>(in List<T> people,in string path)
+        {
+            var settings = new JsonSerializerSettings  // Задаем формат Json
+            {
+                Formatting = Formatting.Indented,
+            };
+            // Создаем строку в формате Json      
+            File.WriteAllText(path, JsonConvert.SerializeObject(people, settings));  // Записываем файл Json на диск
+        }
     }    
 }

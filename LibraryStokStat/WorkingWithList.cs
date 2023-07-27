@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
@@ -12,7 +13,7 @@ using System.Xml.Linq;
 
 namespace LibraryStokStat
 {
-    public class WorkingWithList : IDateEntryValidation   //Работа со списком
+    public class WorkingWithList : Person, IDateEntryValidation  //Работа со списком
     {       
         private static List<Person>? listPerson = new();
         private static readonly string fileName = "PersonJson.json";
@@ -27,22 +28,32 @@ namespace LibraryStokStat
             listPerson.AddRange(listJsonOut);
             else
             listPerson = new List<Person>();
-        }                
-        public void MonitorOutput()//Метод вывода всех сотрудников
+            //IssuanceCheck();
+        }      
+        private static void IssuanceCheck()  // Проверка на выдачу. Запуск из статического конструктора при старте программы
         {
-            
+            //Проверка на получение СИЗ 1
+            DateTime dateParse;
+            DateTime dateToday = DateTime.Today;
+
             if (!(listPerson == null || listPerson.Count == 0))
-            {                
-                listPerson.Sort((u1, u2) => u1.Id.CompareTo(u2.Id)); //Сортировка по Id
-                foreach (Person user in listPerson.OrderBy(user => string.Concat(user.Id, user.Name, user.SurName, user.EmploymentDate )))
-                    Console.WriteLine($"Номер:{user.Id,-5}\tИмя:{user.Name,-8}\tФамилия:{user.SurName,-8}\tДата приема на работу: {user.EmploymentDate ?? "Нет данных"}");
+            {
+                foreach (Person user in listPerson.OrderBy(user => string.Concat(user.Id, user.Name, user.SurName, user.EmploymentDate)))
+                {
+                    dateParse = DateTime.Parse(user.EmploymentDate ?? "Нет данных о дате приема");
+                    var result = (dateToday - dateParse).Days;
+                    Console.WriteLine($"{result}");
+                }
             }
             else
             {
-                Console.WriteLine("Нет ни одного сотрудника в списке");
+                Console.WriteLine("Нет ни одного сотрудника для выдачи");
                 return;
             }
+
         }
+        public void MonitorOutput() => base.ListOutput(listPerson); //Метод вывода всех сотрудников        
+        
         public async void DataInput()//Метод заполнения карточки сотрудника
         {     
             var workingWithList = new WorkingWithList();
