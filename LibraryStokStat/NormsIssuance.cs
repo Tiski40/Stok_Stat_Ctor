@@ -7,8 +7,7 @@ using System.Threading.Tasks;
 namespace LibraryStokStat
 {
     public class NormsIssuance
-    {
-        
+    {       
         public void NormInput()
         {
             var positionNew = new PositionNew("Test", 1);

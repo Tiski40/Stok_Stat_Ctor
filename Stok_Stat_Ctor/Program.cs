@@ -2,19 +2,20 @@
 namespace Stok_Stat_Ctor
 {
     internal class Program
-    {
+    {       
         static void Main(string[] args)
         {
             NormsIssuance normsIssuance = new NormsIssuance();
             WorkingWithList workingWithList = new();
+            workingWithList.OutMessage += DisplMessOut;
             bool isWork = true;
             while (isWork)
-            {
+            {              
                 Console.WriteLine("\n0 - Вывести всех \n1 - Добавить нового \n2 - Удалить \n3 - Нормы \n4 - Выход \n---------------");
                 int? inputCommand = 0;
                 try
                 {
-                    string? inputCommandStr = Console.ReadLine();
+                    string? inputCommandStr = Console.ReadLine();                    
                     if (inputCommandStr != null)
                         inputCommand = int.Parse(inputCommandStr);
                 }
@@ -47,5 +48,6 @@ namespace Stok_Stat_Ctor
                 }                
             }
         }
+        static void DisplMessOut(string message) => Console.WriteLine(message);
     }
 }

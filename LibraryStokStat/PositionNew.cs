@@ -4,12 +4,13 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.Json.Serialization;
+using System.Threading.Channels;
 using System.Threading.Tasks;
 
 namespace LibraryStokStat
 {
     internal class PositionNew:IDateEntryValidation
-    {
+    {            
         public static List<PositionNew> listPositionNew = new();
         private static readonly string fileNamePosition = "PositionJson.json";
         [JsonProperty("Наименование")]
@@ -24,19 +25,29 @@ namespace LibraryStokStat
         }
         public void PosInputNewDate()
         {
-            PositionNew? positionNormsNew = null;
             bool isWorkPositNew = true;
             while (isWorkPositNew)
-            {
+            {               
                 Console.Write("Наименование: ");
                 NamePosition = Console.ReadLine();
                 Console.Write("Срок норм выдачи(лет): ");
                 string? normTerD = Console.ReadLine();
                 if (normTerD != null) NormTermDay = int.Parse(normTerD);
-                positionNormsNew = new(NamePosition, NormTermDay);
+                PositionNew? positionNormsNew = new(NamePosition, NormTermDay);
                 listPositionNew.Add(positionNormsNew);
                 Console.WriteLine("Внести еще позицию?\n0 - Нет\n1 - Да");
-                int command = int.Parse(Console.ReadLine());
+                int? command = 0;
+                try
+                {
+                    string? commandSrt = Console.ReadLine();                   
+                    if (commandSrt != null)
+                        command = int.Parse(commandSrt);
+                }
+                catch (Exception)
+                {
+                    Console.WriteLine("Нет такой команды");
+                    
+                }
                 switch (command)
                 {
                     case 0:
@@ -49,8 +60,7 @@ namespace LibraryStokStat
                     default:
                         isWorkPositNew = true; break;
                 }
-            }           
-            
-        }
+            }                      
+        }        
     }
 }

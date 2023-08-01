@@ -12,9 +12,11 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace LibraryStokStat
-{
+{   
     public class WorkingWithList : Person, IDateEntryValidation  //Работа со списком
-    {       
+    {
+        public delegate void DisplMessage(string message);
+        public event DisplMessage? OutMessage;        
         private static List<Person>? listPerson = new();
         private static readonly string fileName = "PersonJson.json";
         static WorkingWithList()   // Стат.констр. Отрабатывает при старте программы.
@@ -42,7 +44,7 @@ namespace LibraryStokStat
                 {
                     dateParse = DateTime.Parse(user.EmploymentDate ?? "Нет данных о дате приема");
                     var result = (dateToday - dateParse).Days;
-                    Console.WriteLine($"{result}");
+                    Console.WriteLine($"{result}");                     
                 }
             }
             else
@@ -50,14 +52,12 @@ namespace LibraryStokStat
                 Console.WriteLine("Нет ни одного сотрудника для выдачи");
                 return;
             }
-
         }
-        public void MonitorOutput() => base.ListOutput(listPerson); //Метод вывода всех сотрудников        
-        
+        public void MonitorOutput() => base.ListOutput(listPerson); //Метод вывода всех сотрудников               
         public async void DataInput()//Метод заполнения карточки сотрудника
         {     
-            var workingWithList = new WorkingWithList();
-            Console.WriteLine("Введите имя:");
+            var workingWithList = new WorkingWithList();           
+            OutMessage?.Invoke("Введите имя:");
             string? name = null;            
             if (workingWithList is IDateEntryValidation dateEntryValidationName) //Проверка введенных строковых данных.Только алфавит RU и EN
                 name = dateEntryValidationName.ValidatOfEnteredDataString();
@@ -112,5 +112,6 @@ namespace LibraryStokStat
             }
             return input;
         }
+        
     }
 }
