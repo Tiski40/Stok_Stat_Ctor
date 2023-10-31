@@ -10,7 +10,7 @@ namespace LibraryStokStat
     {       
         public void NormInput()
         {
-            var positionNew = new PositionNew("Test", 1);
+            var positionNew = new PositionNew("Test", 1, 1);
             bool isWorkNorms = true;
             while (isWorkNorms)
             {

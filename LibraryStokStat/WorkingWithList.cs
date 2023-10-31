@@ -12,11 +12,13 @@ using System.Threading.Tasks;
 using System.Xml.Linq;
 
 namespace LibraryStokStat
-{   
+{
+    
+    
     public class WorkingWithList : Person, IDateEntryValidation  //Работа со списком
     {
         public delegate void DisplMessage(string message);
-        public event DisplMessage? OutMessage;        
+        public event DisplMessage? OutMessage;
         private static List<Person>? listPerson = new();
         private static readonly string fileName = "PersonJson.json";
         static WorkingWithList()   // Стат.констр. Отрабатывает при старте программы.
@@ -49,7 +51,7 @@ namespace LibraryStokStat
             }
             else
             {
-                Console.WriteLine("Нет ни одного сотрудника для выдачи");
+                Console.WriteLine ("Нет ни одного сотрудника для выдачи");
                 return;
             }
         }
@@ -61,30 +63,33 @@ namespace LibraryStokStat
             string? name = null;            
             if (workingWithList is IDateEntryValidation dateEntryValidationName) //Проверка введенных строковых данных.Только алфавит RU и EN
                 name = dateEntryValidationName.ValidatOfEnteredDataString();
-            Console.WriteLine("Введите фамилию:");
+            OutMessage?.Invoke("Введите фамилию:");
             string? surname = null;
             if (workingWithList is IDateEntryValidation dateEntryValidationSurName) //Проверка введенных строковых данных.Только алфавит RU и EN 
                 surname = dateEntryValidationSurName.ValidatOfEnteredDataString();
-            Console.WriteLine("Дата приема на работу:");
-            string? employmentDate = Console.ReadLine();
-            if (DateTime.TryParse(employmentDate, out DateTime dateValue) != true) // Конвертация даты в формат dd.MM.yyyy            
-                Console.WriteLine("Неверный формат даты");    
-            Person user = new(name, surname, 0, dateValue.ToShortDateString());   
-            int lastId = 0;
-            if (listPerson != null)            
-                lastId = listPerson.Count == 0 ? 0 : listPerson.Last().Id; //Получаем последний Id           
-            else           
-                listPerson = new List<Person>();                           
-            user.SetNewId(lastId + 1); //Присваиваем следующий ID
-            listPerson.Add(user);
+
+            OutMessage?.Invoke("Дата приема на работу:");
+            string? employmentDate = Console.ReadLine();         
+                
+                    if (DateTime.TryParse(employmentDate, out DateTime dateValue) != true) // Конвертация даты в формат dd.MM.yyyy            
+                        OutMessage?.Invoke("Неверный формат даты или пустая строка");
+                    Person user = new(name, surname, 0, dateValue.ToShortDateString());
+                    int lastId = 0;
+                    if (listPerson != null)
+                        lastId = listPerson.Count == 0 ? 0 : listPerson.Last().Id; //Получаем последний Id           
+                    else
+                        listPerson = new List<Person>();
+                    user.SetNewId(lastId + 1); //Присваиваем следующий ID
+                   listPerson.Add(user);
+       
             await new SaveDateInJsonCsv().SaveInJsonCsv(listPerson); //Асинхронный метод сохранение данных в файл Json
         }  
         public void PersonRemove()
         {
-            Console.WriteLine("Введите Таб.номер");
+            OutMessage?.Invoke("Введите Таб.номер");
             string? idStr = Console.ReadLine();
             int delId = GetIntFromString(idStr);
-            if (delId <= 0) Console.WriteLine("Нет такого номера");
+            if (delId <= 0) OutMessage?.Invoke("Нет такого номера");
             else
             {    
                 if (listPerson != null)
@@ -105,7 +110,7 @@ namespace LibraryStokStat
                 if (str != null)
                 {
                     input = int.Parse(str);
-                }               
+                }
             }
             catch (FormatException)
             {               

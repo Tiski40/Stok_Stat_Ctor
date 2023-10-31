@@ -1,7 +1,7 @@
 ﻿using LibraryStokStat;
 namespace Stok_Stat_Ctor
 {
-    internal class Program
+    public class Program
     {       
         static void Main(string[] args)
         {
@@ -10,8 +10,8 @@ namespace Stok_Stat_Ctor
             workingWithList.OutMessage += DisplMessOut;
             bool isWork = true;
             while (isWork)
-            {              
-                Console.WriteLine("\n0 - Вывести всех \n1 - Добавить нового \n2 - Удалить \n3 - Нормы \n4 - Выход \n---------------");
+            {
+                Console.WriteLine ("\n0 - Вывести всех \n1 - Добавить нового \n2 - Удалить \n3 - Нормы \n4 - Выход \n---------------");
                 int? inputCommand = 0;
                 try
                 {

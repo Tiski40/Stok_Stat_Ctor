@@ -39,7 +39,7 @@ namespace LibraryStokStat
             {
                 listPerson.Sort((u1, u2) => u1.Id.CompareTo(u2.Id)); //Сортировка по Id
                 foreach (Person user in listPerson.OrderBy(user => string.Concat(user.Id, user.Name, user.SurName, user.EmploymentDate)))
-                    Console.WriteLine($"Номер:{user.Id,-5}\tИмя:{user.Name,-8}\tФамилия:{user.SurName,-8}\tДата приема на работу: {user.EmploymentDate ?? "Нет данных"}");
+                    Console.WriteLine ($"Номер:{user.Id,-5}\tИмя:{user.Name,-8}\tФамилия:{user.SurName,-8}\tДата приема на работу: {user.EmploymentDate ?? "Нет данных"}");
             } 
             else
             {
