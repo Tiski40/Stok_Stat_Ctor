@@ -24,8 +24,14 @@ namespace LibraryStokStat
             if (saveDateInJsonCsv is IDateEntryValidation dateEntryValidation)
             {
                 await Task.Run(() => dateEntryValidation.SaveInJson(person, fileName));
-            }                
+            }
+            if (person == null)
+            {
+                OutMessage?.Invoke("Нет данных для сохранения");
+                return;
+            }
             new SaveDateInJsonCsv(person).SaveToCsv();
+
         }
         public void SaveToCsv(string path = "", string filaNameCsv = "PersonCsv", string delimiter = ";") // Сохранение в формате CSV
         {
