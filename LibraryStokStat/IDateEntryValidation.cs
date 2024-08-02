@@ -35,7 +35,7 @@ namespace LibraryStokStat
             {
                 Formatting = Formatting.Indented,
             };
-            // Создаем строку в формате Json      
+            // Создаем строку в формате Json    
             File.WriteAllText(path, JsonConvert.SerializeObject(people, settings));  // Записываем файл Json на диск
         }            
     }    
