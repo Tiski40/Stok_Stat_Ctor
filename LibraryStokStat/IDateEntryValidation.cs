@@ -18,13 +18,13 @@ namespace LibraryStokStat
             {
                 validStr = Console.ReadLine();
                 if (validStr is null or "")
-                    Console.WriteLine("Ничего не ввели.\nПовторите ввод:");
+                    Console.Write("Ничего не ввели.\nПовторите ввод:");
                 else
                 {
                     if (Regex.IsMatch(validStr, "^[а-яА-Яa-zA-Z]+$"))
                         isWorkName = false;
                     else
-                        Console.WriteLine("Только буквы.\nПовторите ввод:");
+                        Console.Write("Только буквы.\nПовторите ввод:");
                 }
             }
             return validStr ?? "Нет данных";
@@ -35,7 +35,7 @@ namespace LibraryStokStat
             {
                 Formatting = Formatting.Indented,
             };
-            // Создаем строку в формате Json    
+            // Создаем строку в формате Json     
             File.WriteAllText(path, JsonConvert.SerializeObject(people, settings));  // Записываем файл Json на диск
         }            
     }    

@@ -13,8 +13,6 @@ using System.Xml.Linq;
 
 namespace LibraryStokStat
 {
-    
-    
     public class WorkingWithList : Person, IDateEntryValidation  //Работа со списком
     {
         public delegate void DisplMessage(string message);
@@ -25,13 +23,13 @@ namespace LibraryStokStat
                                    // Загружает из Json файла данные в List для работы с ними.
         {
             if (File.Exists(fileName) != true)
-            File.WriteAllText(fileName, null);
+                File.WriteAllText(fileName, null);
             string personJson = File.ReadAllText(fileName);
             List<Person>? listJsonOut = JsonConvert.DeserializeObject<List<Person>>(personJson);
             if (listJsonOut != null)
-            listPerson.AddRange(listJsonOut);
+                listPerson.AddRange(listJsonOut);
             else
-            listPerson = new List<Person>();
+                listPerson = new List<Person>();
             //IssuanceCheck();
         }      
         private static void IssuanceCheck()  // Проверка на выдачу. Запуск из статического конструктора при старте программы
@@ -46,12 +44,12 @@ namespace LibraryStokStat
                 {
                     dateParse = DateTime.Parse(user.EmploymentDate ?? "Нет данных о дате приема");
                     var result = (dateToday - dateParse).Days;
-                    Console.WriteLine($"{result}");                     
+                    Console.WriteLine($"{result}");
                 }
             }
             else
             {
-                Console.WriteLine ("Нет ни одного сотрудника для выдачи");
+                Console.WriteLine("Нет ни одного сотрудника для выдачи");
                 return;
             }
         }

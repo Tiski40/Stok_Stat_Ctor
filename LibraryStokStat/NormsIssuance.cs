@@ -14,17 +14,23 @@ namespace LibraryStokStat
             bool isWorkNorms = true;
             while (isWorkNorms)
             {
-                Console.WriteLine("\n0 - Внести новую позицию \n1 - Редактировать позицию\n2 - Выход");
                 int? inputCommandNorms = 0;
-                try
+                bool commandForPosition = true;
+                while (commandForPosition)
                 {
-                    string? inputNormsCommandStr = Console.ReadLine();
-                    if (inputNormsCommandStr != null)
-                        inputCommandNorms = int.Parse(inputNormsCommandStr);
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("Нет такой команды");
+                    Console.WriteLine("\n0 - Внести новую позицию \n1 - Редактировать позицию\n2 - Выход");                  
+                    try
+                    {
+                        string? inputNormsCommandStr = Console.ReadLine();
+                        if (inputNormsCommandStr != null)
+                            inputCommandNorms = int.Parse(inputNormsCommandStr);
+                        commandForPosition = false;
+                    }
+                    catch (FormatException)
+                    {
+                        Console.WriteLine("Нет такой команды");
+                        commandForPosition = true ;
+                    }
                 }
                 switch (inputCommandNorms)
                 {
@@ -37,6 +43,7 @@ namespace LibraryStokStat
                         isWorkNorms = false;
                         break;
                     default:
+                        Console.WriteLine("Нет такой команды");
                         break;
                 }
             }

@@ -9,12 +9,13 @@ using System.Threading.Tasks;
 
 namespace LibraryStokStat
 {
-    internal class PositionNew:IDateEntryValidation
-    {         
+    internal class PositionNew : IDateEntryValidation
+    {
+        
         public static List<PositionNew> listPositionNew = new();
         private static readonly string fileNamePosition = "PositionJson.json";
-
-        public event WorkingWithList.DisplMessage? OutMessage;
+        
+        public event WorkingWithList .DisplMessage? OutMessage; //Вывод сообщения 
 
         [JsonProperty("Наименование")]
         public string? NamePosition { get; private set; }  // Наименование позиции
@@ -31,21 +32,39 @@ namespace LibraryStokStat
             NormTermDay = normTermDay;
             NumberPosition = numberPositon;
         }
-        public PositionNew(string namePosition)
-        {
-            NamePosition = NamePosition;
-        }
-        public PositionNew(){}
+        public PositionNew(string? namePosition) => NamePosition = namePosition;
+        public PositionNew() { }
         public void PosInputNewDate()
         {
+            var positionNew = new PositionNew();
             bool isWorkPositNew = true;
             while (isWorkPositNew)
-            {               
-                Console.Write("Наименование: ");
-                NamePosition = Console.ReadLine();
-                Console.Write("Срок норм выдачи(лет): ");
-                string? normTerD = Console.ReadLine();
-                if (normTerD != null) NormTermDay = int.Parse(normTerD);                              
+            { 
+                bool getNamePosition = true;
+                while (getNamePosition)
+                {
+                    Console.Write("Наименование: ");
+                    string? namePos = Console.ReadLine();
+                    InputCheck(namePos,out getNamePosition);
+                    if (namePos != null) NamePosition = namePos;
+                }
+                bool getTernValue = true;
+                while (getTernValue)
+                {
+                    Console.Write("Срок норм выдачи(лет): ");
+
+                    try
+                    {
+                        string? normTerD = Console.ReadLine();
+
+                        if (normTerD != null) NormTermDay = int.Parse(normTerD);
+                    }
+                    catch (Exception)
+                    {
+                        Console.WriteLine("Нет такой команды");  //Доработать. Не переходит
+                        getTernValue = true;
+                    }                   
+                }                                             
                 PositionNew? positionNormsNew = new(NamePosition, NormTermDay, NumberPosition);
                 int lastIdPosition = 0;
                 if (listPositionNew != null)
@@ -54,35 +73,56 @@ namespace LibraryStokStat
                     listPositionNew = new List<PositionNew>();
                 positionNormsNew.SetNewId(lastIdPosition + 1); //Присваиваем следующий ID
                 listPositionNew.Add(positionNormsNew);
-                Console.WriteLine("Внести еще позицию?\n0 - Нет\n1 - Да");
-                int? command = 0;
-                try
+
+                bool enterPosYN = true;
+                while (enterPosYN)
                 {
-                    string? commandSrt = Console.ReadLine();                   
-                    if (commandSrt != null)
-                        command = int.Parse(commandSrt);
+                    Console.WriteLine ("Внести еще позицию?\n0 - Нет\n1 - Да");
+                    int? command = 0;
+                    try
+                    {
+                        string? commandSrt = Console.ReadLine();
+                        if (commandSrt != null)
+                            command = int.Parse(commandSrt);
+                    }
+                    catch (Exception)
+                    {
+                        Console.WriteLine("Нет такой команды");
+                        enterPosYN = false;
+                    }
+
+                    switch (command)
+                    {
+                        case 0:
+                            isWorkPositNew = false;
+                            if (positionNormsNew is IDateEntryValidation iDateEntryValid)
+                            {
+                                iDateEntryValid.SaveInJson(in listPositionNew, fileNamePosition);
+                            }
+                            enterPosYN = false;
+                            break;
+                            case 1:
+                        default:
+                                break;
+                    }
+                    isWorkPositNew = false;
                 }
-                catch (Exception)
-                {
-                    Console.WriteLine("Нет такой команды");                   
-                }
-                switch (command)
-                {
-                    case 0:
-                        isWorkPositNew = false;
-                        if (positionNormsNew is IDateEntryValidation iDateEntryValid)
-                        {
-                            iDateEntryValid.SaveInJson(in listPositionNew, fileNamePosition);
-                        }
-                        break;
-                    default:
-                        isWorkPositNew = true; break;
-                }
+                
             }                      
         }
         public void SetNewId(int id)
         {
             NumberPosition = id;
+        }
+        public bool InputCheck(string? keyboardInput, out bool getRet) //Проверка на null ввода с клавиатуры
+        {
+            if (keyboardInput == string.Empty)
+            {
+                Console.WriteLine("Строка не должна быть пустой.");
+                return getRet = true;
+            }
+            else            
+                return getRet = false;
         }
     }
 }
