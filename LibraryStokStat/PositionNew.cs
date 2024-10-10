@@ -11,11 +11,11 @@ namespace LibraryStokStat
 {
     internal class PositionNew : IDateEntryValidation
     {
+        WorkingWithList workingList = new();
         
         public static List<PositionNew> listPositionNew = new();
         private static readonly string fileNamePosition = "PositionJson.json";
         
-        public event WorkingWithList .DisplMessage? OutMessage; //Вывод сообщения 
 
         [JsonProperty("Наименование")]
         public string? NamePosition { get; private set; }  // Наименование позиции
@@ -52,11 +52,9 @@ namespace LibraryStokStat
                 while (getTernValue)
                 {
                     Console.Write("Срок норм выдачи(лет): ");
-
                     try
                     {
                         string? normTerD = Console.ReadLine();
-
                         if (normTerD != null) NormTermDay = int.Parse(normTerD);
                     }
                     catch (Exception)
@@ -114,7 +112,7 @@ namespace LibraryStokStat
         {
             NumberPosition = id;
         }
-        public bool InputCheck(string? keyboardInput, out bool getRet) //Проверка на null ввода с клавиатуры
+        public bool InputCheck(string? keyboardInput, out bool getRet) //Проверка на пустую строку ввода с клавиатуры
         {
             if (keyboardInput == string.Empty)
             {

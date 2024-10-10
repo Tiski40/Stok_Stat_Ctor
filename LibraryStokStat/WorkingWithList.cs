@@ -111,7 +111,8 @@ namespace LibraryStokStat
                 }
             }
             catch (FormatException)
-            {               
+            {
+                OutMessage?.Invoke("Только цифры");
             }
             return input;
         }

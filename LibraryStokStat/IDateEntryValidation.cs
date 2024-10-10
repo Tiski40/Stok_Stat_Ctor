@@ -29,14 +29,14 @@ namespace LibraryStokStat
             }
             return validStr ?? "Нет данных";
         }
-        public void SaveInJson<T>(in List<T>? people,in string path)
+        public void SaveInJson<T>(in List<T>? people, in string path)
         {
             var settings = new JsonSerializerSettings  // Задаем формат Json
             {
                 Formatting = Formatting.Indented,
             };
             // Создаем строку в формате Json     
-            File.WriteAllText(path, JsonConvert.SerializeObject(people, settings));  // Записываем файл Json на диск
+            File.WriteAllText(path, JsonConvert.SerializeObject(people, settings));  // Записываем в файл Json
         }            
     }    
 }

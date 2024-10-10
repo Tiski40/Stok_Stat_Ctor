@@ -9,19 +9,25 @@ namespace Stok_Stat_Ctor
             WorkingWithList workingWithList = new();
             workingWithList.OutMessage += DisplMessOut;
             bool isWork = true;
+            int? inputCommand = null;
             while (isWork)
-            {
-                Console.WriteLine ("\n0 - Вывести всех \n1 - Добавить нового \n2 - Удалить \n3 - Нормы \n4 - Выход \n---------------");
-                int? inputCommand = 0;
-                try
+            {  
+                bool isWorkMainMenu = true;
+                while (isWorkMainMenu)
                 {
-                    string? inputCommandStr = Console.ReadLine();                    
-                    if (inputCommandStr != null)
-                        inputCommand = int.Parse(inputCommandStr);
-                }
-                catch (FormatException)
-                {
-                    Console.WriteLine("Нет такой команды");
+                    Console.WriteLine("\n0 - Вывести всех \n1 - Добавить нового \n2 - Удалить \n3 - Нормы \n4 - Выход \n---------------");
+                    try
+                    {
+                        string? inputCommandStr = Console.ReadLine();
+                        if (inputCommandStr != null)
+                            inputCommand = int.Parse(inputCommandStr);
+                        isWorkMainMenu = false;
+                    }
+                    catch (FormatException)
+                    {
+                        Console.WriteLine("Нет такой команды");
+                        isWorkMainMenu = true;
+                    }
                 }
                 switch (inputCommand)
                 {
@@ -43,7 +49,8 @@ namespace Stok_Stat_Ctor
                         break;
 
                     default:
-                        Console.WriteLine("Нет такой команды"); 
+                        Console.WriteLine("Нет такой команды");
+                        isWork = true;
                         break;
                 }                
             }
