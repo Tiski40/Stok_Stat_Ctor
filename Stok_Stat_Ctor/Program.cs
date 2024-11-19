@@ -32,19 +32,19 @@ namespace Stok_Stat_Ctor
                 switch (inputCommand)
                 {
                     case 0:
-                        workingWithList.MonitorOutput();
+                        workingWithList.MonitorOutput();  // Вывод всех
                         break;
                     case 1:
-                        workingWithList.DataInput();
+                        workingWithList.DataInput();   // Добавить нового
                         break;
                     case 2:
-                        workingWithList.PersonRemove();
+                        workingWithList.PersonRemove();   //Удаление сотрудника
                         break;
                     case 3:
-                        normsIssuance.NormInput();
+                        normsIssuance.NormInput();   // Ввод нори для расходников
                         break;
                     case 4:
-                        Console.WriteLine("Пока");
+                        Console.WriteLine("Пока");     // Выход
                         isWork = false;
                         break;
 

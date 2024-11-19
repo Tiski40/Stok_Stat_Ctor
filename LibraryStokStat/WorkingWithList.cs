@@ -15,10 +15,12 @@ namespace LibraryStokStat
 {
     public class WorkingWithList : Person, IDateEntryValidation  //Работа со списком
     {
-        public delegate void DisplMessage(string message);
-        public event DisplMessage? OutMessage;
+        
         private static List<Person>? listPerson = new();
         private static readonly string fileName = "PersonJson.json";
+
+        public event IDateEntryValidation.DisplMessage? OutMessage;
+
         static WorkingWithList()   // Стат.констр. Отрабатывает при старте программы.
                                    // Загружает из Json файла данные в List для работы с ними.
         {
@@ -66,11 +68,12 @@ namespace LibraryStokStat
             if (workingWithList is IDateEntryValidation dateEntryValidationSurName) //Проверка введенных строковых данных.Только алфавит RU и EN 
                 surname = dateEntryValidationSurName.ValidatOfEnteredDataString();
 
+            DateTime dateValue = DateTime.Now;
             OutMessage?.Invoke("Дата приема на работу:");
-            string? employmentDate = Console.ReadLine();         
-                
-                    if (DateTime.TryParse(employmentDate, out DateTime dateValue) != true) // Конвертация даты в формат dd.MM.yyyy            
-                        OutMessage?.Invoke("Неверный формат даты или пустая строка");
+            string? employmentDate = Console.ReadLine();
+            if(workingWithList is IDateEntryValidation dateEntryValidationDate)
+            dateValue = dateEntryValidationDate.CheckDate(employmentDate);
+
                     Person user = new(name, surname, 0, dateValue.ToShortDateString());
                     int lastId = 0;
                     if (listPerson != null)

@@ -15,7 +15,8 @@ namespace LibraryStokStat
         
         public static List<PositionNew> listPositionNew = new();
         private static readonly string fileNamePosition = "PositionJson.json";
-        
+
+        public event IDateEntryValidation.DisplMessage? OutMessage;
 
         [JsonProperty("Наименование")]
         public string? NamePosition { get; private set; }  // Наименование позиции
@@ -101,11 +102,10 @@ namespace LibraryStokStat
                             break;
                             case 1:
                         default:
-                                break;
+                            break;
                     }
                     isWorkPositNew = false;
-                }
-                
+                }              
             }                      
         }
         public void SetNewId(int id)

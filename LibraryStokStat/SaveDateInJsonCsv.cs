@@ -7,16 +7,15 @@ using System.Threading.Tasks;
 
 namespace LibraryStokStat
 {
-    public class SaveDateInJsonCsv:IDateEntryValidation
+    public class SaveDateInJsonCsv : IDateEntryValidation
     {
+        public event IDateEntryValidation.DisplMessage? OutMessage;
         public readonly List<Person>? personsCsvList;
         public readonly Person? personCsv;
         public SaveDateInJsonCsv(){}
         public SaveDateInJsonCsv(Person personeCsv) => personCsv = personeCsv;
         public SaveDateInJsonCsv(List<Person> personList) => personsCsvList = personList;
         private static readonly string fileName = "PersonJson.json";
-
-        public event WorkingWithList.DisplMessage? OutMessage;
 
         public async Task SaveInJsonCsv(List<Person>? person)
         {
