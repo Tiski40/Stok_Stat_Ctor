@@ -14,13 +14,11 @@ using System.Xml.Linq;
 namespace LibraryStokStat
 {
     public class WorkingWithList : Person, IDateEntryValidation  //Работа со списком
-    {
-        
+    {       
         private static List<Person>? listPerson = new();
         private static readonly string fileName = "PersonJson.json";
-
         public event IDateEntryValidation.DisplMessage? OutMessage;
-
+        private readonly SaveDateInJsonCsv saveDateInJsonCsv = new();
         static WorkingWithList()   // Стат.констр. Отрабатывает при старте программы.
                                    // Загружает из Json файла данные в List для работы с ними.
         {
@@ -33,7 +31,20 @@ namespace LibraryStokStat
             else
                 listPerson = new List<Person>();
             //IssuanceCheck();
-        }      
+        }
+        public async void ListRemove() 
+        {
+            if (listPerson?.Count != 0)
+            {
+                listPerson?.Clear();
+                await saveDateInJsonCsv.SaveInJsonCsv(listPerson);
+                OutMessage?.Invoke("Список сотрудкиков удален успешно");
+            }
+            else
+            {
+                OutMessage?.Invoke("Список пустой");
+            }
+        }
         private static void IssuanceCheck()  // Проверка на выдачу. Запуск из статического конструктора при старте программы
         {
             //Проверка на получение СИЗ 1
@@ -83,7 +94,7 @@ namespace LibraryStokStat
                     user.SetNewId(lastId + 1); //Присваиваем следующий ID
                    listPerson.Add(user);
        
-            await new SaveDateInJsonCsv().SaveInJsonCsv(listPerson); //Асинхронный метод сохранение данных в файл Json
+            await new SaveDateInJsonCsv().SaveInJsonCsv(listPerson); //Асинхронный метод сохранение данных в файл Json и CSV
         }  
         public void PersonRemove()
         {

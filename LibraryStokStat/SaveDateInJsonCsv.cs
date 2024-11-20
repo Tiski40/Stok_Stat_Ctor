@@ -16,7 +16,6 @@ namespace LibraryStokStat
         public SaveDateInJsonCsv(Person personeCsv) => personCsv = personeCsv;
         public SaveDateInJsonCsv(List<Person> personList) => personsCsvList = personList;
         private static readonly string fileName = "PersonJson.json";
-
         public async Task SaveInJsonCsv(List<Person>? person)
         {
             var saveDateInJsonCsv = new SaveDateInJsonCsv();

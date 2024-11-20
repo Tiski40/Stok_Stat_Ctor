@@ -10,12 +10,9 @@ using System.Threading.Tasks;
 namespace LibraryStokStat
 {
     internal class PositionNew : IDateEntryValidation
-    {
-        WorkingWithList workingList = new();
-        
+    {        
         public static List<PositionNew> listPositionNew = new();
         private static readonly string fileNamePosition = "PositionJson.json";
-
         public event IDateEntryValidation.DisplMessage? OutMessage;
 
         [JsonProperty("Наименование")]
@@ -26,6 +23,8 @@ namespace LibraryStokStat
         public int NumberPosition { get; private set; } // Номер позиции
         [JsonProperty("Размер")]
         public int NormSise  { get; set; }
+
+        public static string FileNamePosition => fileNamePosition;
 
         public PositionNew(string? namePosition, int normTermDay, int numberPositon)
         {
@@ -96,7 +95,7 @@ namespace LibraryStokStat
                             isWorkPositNew = false;
                             if (positionNormsNew is IDateEntryValidation iDateEntryValid)
                             {
-                                iDateEntryValid.SaveInJson(in listPositionNew, fileNamePosition);
+                                iDateEntryValid.SaveInJson(in listPositionNew, FileNamePosition);
                             }
                             enterPosYN = false;
                             break;

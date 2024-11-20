@@ -6,7 +6,7 @@ namespace Stok_Stat_Ctor
         static void Main(string[] args)
         {
             NormsIssuance normsIssuance = new NormsIssuance();
-            WorkingWithList workingWithList = new();
+            WorkingWithList workingWithList = new();          
             workingWithList.OutMessage += DisplMessOut;
             bool isWork = true;
             int? inputCommand = null;
@@ -15,7 +15,8 @@ namespace Stok_Stat_Ctor
                 bool isWorkMainMenu = true;
                 while (isWorkMainMenu)
                 {
-                    Console.WriteLine("\n0 - Вывести всех \n1 - Добавить нового \n2 - Удалить \n3 - Нормы \n4 - Выход \n---------------");
+                    Console.WriteLine("\n0 - Вывести всех \n1 - Добавить нового \n2 - Удалить \n3 - Нормы " +
+                        "\n4 - Выход \n5 - Удалить всех сотрудников из списка \n-------------");
                     try
                     {
                         string? inputCommandStr = Console.ReadLine();
@@ -44,8 +45,11 @@ namespace Stok_Stat_Ctor
                         normsIssuance.NormInput();   // Ввод нори для расходников
                         break;
                     case 4:
-                        Console.WriteLine("Пока");     // Выход
+                        Console.WriteLine("Пока");     // Выход                     
                         isWork = false;
+                        break;
+                    case 5:
+                            workingWithList.ListRemove();
                         break;
 
                     default:
